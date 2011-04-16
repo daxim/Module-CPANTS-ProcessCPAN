@@ -28,6 +28,8 @@ my $build = Module::CPANTS::MyBuild->new(
         'version'                       => '0.73',
         'File::HomeDir'                 => '0.66',
         'perl'                          => 5.006,
+        'DateTime'                      => '0',
+        'DBD::PgLite::MirrorPgToSQLite' => '0',
     },
     meta_merge => {
         resources => {
