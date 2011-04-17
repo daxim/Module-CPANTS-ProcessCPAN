@@ -1,16 +1,19 @@
 package Module::CPANTS::Schema;
 
-use strict;
-use warnings;
+# Created by DBIx::Class::Schema::Loader
+# DO NOT MODIFY THE FIRST PART OF THIS FILE
 
-use base 'DBIx::Class::Schema';
+use Moose;
+use namespace::autoclean;
+extends 'DBIx::Class::Schema';
 
-__PACKAGE__->load_classes;
-
-
-# Created by DBIx::Class::Schema::Loader v0.04004 @ 2008-08-12 08:51:36
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:gLraz/p7C0IIVY0LA6+X1Q
+__PACKAGE__->load_namespaces;
 
 
-# You can replace this text with custom content, and it will be preserved on regeneration
+# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-04-18 14:06:47
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:9K28MSNwjckcymSzaH2NEQ
+
+
+# You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->meta->make_immutable(inline_constructor => 0);
 1;
