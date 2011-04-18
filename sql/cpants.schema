@@ -336,7 +336,8 @@ CREATE TABLE kwalitee (
     latest_version_distributed_by_debian integer DEFAULT 0 NOT NULL,
     has_no_bugs_reported_in_debian integer DEFAULT 0 NOT NULL,
     has_no_patches_in_debian integer DEFAULT 0 NOT NULL,
-    distributed_by_debian integer DEFAULT 0 NOT NULL
+    distributed_by_debian integer DEFAULT 0 NOT NULL,
+    has_better_auto_install integer DEFAULT 0 NOT NULL
 );
 
 
