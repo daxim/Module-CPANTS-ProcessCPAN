@@ -21,10 +21,10 @@ my $dbh=$p->db->storage->dbh;
 
 # set core modules
 print "update CoreList\n";
-$p->db->resultset('Modules')->find_or_create({module=>'perl',is_core=>1,dist=>0});
+$p->db->resultset('Module')->find_or_create({module=>'perl',is_core=>1,dist=>0});
 my $core=$Module::CoreList::version{$] *1};
 foreach my $mod (keys %$core) {
-    my $m=$p->db->resultset('Modules')->find_or_create({module=>$mod});
+    my $m=$p->db->resultset('Module')->find_or_create({module=>$mod});
     $m->is_core(1);
     $m->dist(0) unless $m->dist;
     $m->update;

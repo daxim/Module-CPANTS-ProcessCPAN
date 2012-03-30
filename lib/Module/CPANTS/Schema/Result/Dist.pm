@@ -602,7 +602,7 @@ __PACKAGE__->has_one(
 );
 __PACKAGE__->has_many(
   "modules",
-  "Module::CPANTS::Schema::Result::Modules",
+  "Module::CPANTS::Schema::Result::Module",
   { "foreign.dist" => "self.id" },
 );
 __PACKAGE__->has_many(
@@ -617,12 +617,12 @@ __PACKAGE__->has_many(
 );
 __PACKAGE__->has_many(
   "uses",
-  "Module::CPANTS::Schema::Result::Uses",
+  "Module::CPANTS::Schema::Result::Use",
   { "foreign.dist" => "self.id" },
 );
 __PACKAGE__->has_many(
   "uses_in_dist",
-  "Module::CPANTS::Schema::Result::Uses",
+  "Module::CPANTS::Schema::Result::Use",
   { "foreign.in_dist" => "self.id" },
 );
 
