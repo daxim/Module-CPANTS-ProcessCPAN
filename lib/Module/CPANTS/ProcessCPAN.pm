@@ -215,7 +215,7 @@ sub process_yaml {
         $db_dist->uses->delete;
         foreach my $m (@$modules) {
             $m->{dist}=$distid;
-            $db->resultset('Modules')->find_or_create($m);
+            $db->resultset('Module')->find_or_create($m);
         }
         foreach my $pq (@$prereq) {
             $pq->{dist}=$distid;
@@ -223,7 +223,7 @@ sub process_yaml {
         }
         foreach my $u (values %$uses) {
             $u->{dist}=$distid;
-            $db->resultset('Uses')->find_or_create($u);
+            $db->resultset('Use')->find_or_create($u);
         }
         while (my ($k,$v)=each %$error) {
             $v = join(', ',@$v) if ref($v) eq 'ARRAY';
