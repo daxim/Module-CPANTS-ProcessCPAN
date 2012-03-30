@@ -148,7 +148,7 @@ sub process_yaml {
     eval { $data=Load($yaml) };
     if ($@) {
         print "Cannot parse YAML: $@";
-        next;
+        return;
     }
 
     #use Data::Dumper;
