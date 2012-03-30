@@ -30,6 +30,7 @@ my $build = Module::CPANTS::MyBuild->new(
         'perl'                          => 5.006,
         'DateTime'                      => '0',
         'DBD::PgLite::MirrorPgToSQLite' => '0',
+        'MooseX::NonMoose'  			=> '0',
     },
     meta_merge => {
         resources => {
