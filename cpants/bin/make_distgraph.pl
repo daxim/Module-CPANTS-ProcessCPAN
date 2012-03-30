@@ -47,7 +47,7 @@ while (my $author=$authors->next) {
 sub make_distgraph {
     my ($dist)=@_;   
     
-    my $results=$db->resultset('HistoryDist')->search(distname=>$dist->distname);
+    my $results=$db->resultset('HistoryDist')->search({distname=>$dist->distname});
     
     my $graph=GD::Graph::linespoints->new(800,300);
     $graph->set(
@@ -77,7 +77,7 @@ sub make_distgraph {
 
 sub make_authorgraph {
     my $author=shift;
-    my $results=$db->resultset('HistoryAuthor')->search(author=>$author->id);
+    my $results=$db->resultset('HistoryAuthor')->search({author=>$author->id});
 
     my @date; my @kw; my @dists;
     my $max_dists=0;
