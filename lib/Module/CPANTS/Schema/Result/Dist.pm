@@ -1,20 +1,38 @@
+use utf8;
 package Module::CPANTS::Schema::Result::Dist;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+Module::CPANTS::Schema::Result::Dist
+
+=cut
 
 use strict;
 use warnings;
 
 use Moose;
 use MooseX::NonMoose;
-use namespace::autoclean;
+use MooseX::MarkAsMethods autoclean => 1;
 extends 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
 
-=head1 NAME
+=over 4
 
-Module::CPANTS::Schema::Result::Dist
+=item * L<DBIx::Class::InflateColumn>
+
+=item * L<DBIx::Class::PK>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn", "PK");
+
+=head1 TABLE: C<dist>
 
 =cut
 
@@ -220,6 +238,12 @@ __PACKAGE__->table("dist");
   is_nullable: 0
 
 =head2 broken_module_install
+
+  data_type: 'text'
+  default_value: 0
+  is_nullable: 0
+
+=head2 mi_auto_install_used
 
   data_type: 'text'
   default_value: 0
@@ -449,6 +473,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "broken_module_install",
   { data_type => "text", default_value => 0, is_nullable => 0 },
+  "mi_auto_install_used",
+  { data_type => "text", default_value => 0, is_nullable => 0 },
   "manifest_matches_dist",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "buildfile_executable",
@@ -502,151 +528,104 @@ __PACKAGE__->add_columns(
   "test_files_list",
   { data_type => "text", is_nullable => 1 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("id");
-__PACKAGE__->add_unique_constraint("dist_package_key", ["package"]);
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<dist_dist_key>
+
+=over 4
+
+=item * L</dist>
+
+=back
+
+=cut
+
 __PACKAGE__->add_unique_constraint("dist_dist_key", ["dist"]);
+
+=head2 C<dist_package_key>
+
+=over 4
+
+=item * L</package>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("dist_package_key", ["package"]);
+
+=head2 C<dist_vname_key>
+
+=over 4
+
+=item * L</vname>
+
+=back
+
+=cut
+
 __PACKAGE__->add_unique_constraint("dist_vname_key", ["vname"]);
 
-=head1 RELATIONS
 
-=head2 run
+# Created by DBIx::Class::Schema::Loader v0.07019 @ 2012-03-30 23:17:09
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lCUwZX8j0QnSJw6JfsIETw
 
-Type: belongs_to
-
-Related object: L<Module::CPANTS::Schema::Result::Run>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "run",
-  "Module::CPANTS::Schema::Result::Run",
-  { id => "run" },
-  {
-    is_deferrable => 1,
-    join_type     => "LEFT",
-    on_delete     => "CASCADE",
-    on_update     => "CASCADE",
-  },
-);
-
-=head2 author
-
-Type: belongs_to
-
-Related object: L<Module::CPANTS::Schema::Result::Author>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "author",
-  "Module::CPANTS::Schema::Result::Author",
-  { id => "author" },
-  {
-    is_deferrable => 1,
-    join_type     => "LEFT",
-    on_delete     => "CASCADE",
-    on_update     => "CASCADE",
-  },
-);
-
-=head2 error
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::Error>
-
-=cut
-
-__PACKAGE__->has_many(
+__PACKAGE__->belongs_to("run", "Module::CPANTS::Schema::Result::Run", { id => "run" });
+__PACKAGE__->belongs_to("author", "Module::CPANTS::Schema::Result::Author", { id => "author" });
+__PACKAGE__->has_one(
   "error",
   "Module::CPANTS::Schema::Result::Error",
-  { "foreign.dist" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  #{ "foreign.dist" => "self.id" },
 );
-
-=head2 history_dist
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::HistoryDist>
-
-=cut
-
 __PACKAGE__->has_many(
   "history_dist",
   "Module::CPANTS::Schema::Result::HistoryDist",
   { "foreign.dist" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
 );
-
-=head2 kwalitee
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::Kwalitee>
-
-=cut
-
-__PACKAGE__->has_many(
+__PACKAGE__->has_one(
   "kwalitee",
   "Module::CPANTS::Schema::Result::Kwalitee",
   { "foreign.dist" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
 );
-
-=head2 modules
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::Module>
-
-=cut
-
 __PACKAGE__->has_many(
   "modules",
-  "Module::CPANTS::Schema::Result::Module",
+  "Module::CPANTS::Schema::Result::Modules",
   { "foreign.dist" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
 );
-
-=head2 prereq
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::Prereq>
-
-=cut
-
+__PACKAGE__->has_many(
+  "requiring",
+  "Module::CPANTS::Schema::Result::Prereq",
+  { "foreign.in_dist" => "self.id" },
+);
 __PACKAGE__->has_many(
   "prereq",
   "Module::CPANTS::Schema::Result::Prereq",
   { "foreign.dist" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
 );
-
-=head2 uses
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::Use>
-
-=cut
-
 __PACKAGE__->has_many(
   "uses",
-  "Module::CPANTS::Schema::Result::Use",
+  "Module::CPANTS::Schema::Result::Uses",
   { "foreign.dist" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+);
+__PACKAGE__->has_many(
+  "uses_in_dist",
+  "Module::CPANTS::Schema::Result::Uses",
+  { "foreign.in_dist" => "self.id" },
 );
 
-
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-04-18 14:06:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lhT3G0ay90s0m4SRedWtqQ
-
-
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
-
-__PACKAGE__->resultset_class('Module::CPANTS::Schema::ResultSet::Dist');
 
 sub get_prereqs {
     my $self=shift;
@@ -707,10 +686,11 @@ sub as_hashref {
 sub uses_in_code {
     return shift->search_related('uses',{in_code=>{'>=',1}},{order_by=>'module'});
 }
-
 sub uses_in_tests {
     return shift->search_related('uses',{in_tests=>{'>=',1}},{order_by=>'module'});
 }
 
+
+# You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
 1;
