@@ -1,20 +1,38 @@
+use utf8;
 package Module::CPANTS::Schema::Result::Author;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+Module::CPANTS::Schema::Result::Author
+
+=cut
 
 use strict;
 use warnings;
 
 use Moose;
 use MooseX::NonMoose;
-use namespace::autoclean;
+use MooseX::MarkAsMethods autoclean => 1;
 extends 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
 
-=head1 NAME
+=over 4
 
-Module::CPANTS::Schema::Result::Author
+=item * L<DBIx::Class::InflateColumn>
+
+=item * L<DBIx::Class::PK>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn", "PK");
+
+=head1 TABLE: C<author>
 
 =cut
 
@@ -115,45 +133,47 @@ __PACKAGE__->add_columns(
     size => [6, 3],
   },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<author_pauseid_key>
+
+=over 4
+
+=item * L</pauseid>
+
+=back
+
+=cut
+
 __PACKAGE__->add_unique_constraint("author_pauseid_key", ["pauseid"]);
 
-=head1 RELATIONS
 
-=head2 dist
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::Dist>
-
-=cut
+# Created by DBIx::Class::Schema::Loader v0.07019 @ 2012-03-30 23:17:09
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:I01Gn76KtsfpCQ+Pou3qdw
 
 __PACKAGE__->has_many(
-  "dist",
+  "dists",
   "Module::CPANTS::Schema::Result::Dist",
   { "foreign.author" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
 );
-
-=head2 history_author
-
-Type: has_many
-
-Related object: L<Module::CPANTS::Schema::Result::HistoryAuthor>
-
-=cut
-
 __PACKAGE__->has_many(
-  "history_author",
+  "history_authors",
   "Module::CPANTS::Schema::Result::HistoryAuthor",
   { "foreign.author" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
 );
-
-
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-04-18 14:06:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wveRQnV8zgGJdPXsRCz77w
-
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

@@ -1,20 +1,38 @@
+use utf8;
 package Module::CPANTS::Schema::Result::Prereq;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+Module::CPANTS::Schema::Result::Prereq
+
+=cut
 
 use strict;
 use warnings;
 
 use Moose;
 use MooseX::NonMoose;
-use namespace::autoclean;
+use MooseX::MarkAsMethods autoclean => 1;
 extends 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
 
-=head1 NAME
+=over 4
 
-Module::CPANTS::Schema::Result::Prereq
+=item * L<DBIx::Class::InflateColumn>
+
+=item * L<DBIx::Class::PK>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn", "PK");
+
+=head1 TABLE: C<prereq>
 
 =cut
 
@@ -93,44 +111,31 @@ __PACKAGE__->add_columns(
   "is_optional_prereq",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
 );
-__PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
+=head1 PRIMARY KEY
 
-=head2 dist
+=over 4
 
-Type: belongs_to
+=item * L</id>
 
-Related object: L<Module::CPANTS::Schema::Result::Dist>
+=back
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "dist",
-  "Module::CPANTS::Schema::Result::Dist",
-  { id => "dist" },
-  {
-    is_deferrable => 1,
-    join_type     => "LEFT",
-    on_delete     => "CASCADE",
-    on_update     => "CASCADE",
-  },
-);
+__PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-04-18 14:06:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:o/PBoO/pjhG+TakpxUHIsg
+# Created by DBIx::Class::Schema::Loader v0.07019 @ 2012-03-30 23:17:09
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6mXQ91yDINhCEvOaX0bFoA
 
-
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
-__PACKAGE__->belongs_to("in_dist", "Module::CPANTS::Schema::Dist", { id => "in_dist" });
-__PACKAGE__->belongs_to("dist", "Module::CPANTS::Schema::Dist", { id => "dist" });
+__PACKAGE__->belongs_to("in_dist", "Module::CPANTS::Schema::Result::Dist", { id => "in_dist" });
+__PACKAGE__->belongs_to("dist", "Module::CPANTS::Schema::Result::Dist", { id => "dist" });
 
 sub as_hashref {
     my $self=shift;
     return { requires => $self->requires, version=>$self->version };
 }
 
-
+# You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;
 1;

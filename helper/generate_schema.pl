@@ -19,7 +19,9 @@ make_schema_at(
         dump_directory     => $dest,
 		components         => [qw/InflateColumn PK/],
         use_moose          => 1,
-        skip_load_external => 1,
+#        skip_load_external => 1,
+        skip_relationships => 1,
+        overwrite_modifications => 1,
     },
     [$p->dsn],
 );

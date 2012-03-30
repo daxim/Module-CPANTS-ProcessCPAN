@@ -1,20 +1,38 @@
+use utf8;
 package Module::CPANTS::Schema::Result::HistoryAuthor;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
+
+=head1 NAME
+
+Module::CPANTS::Schema::Result::HistoryAuthor
+
+=cut
 
 use strict;
 use warnings;
 
 use Moose;
 use MooseX::NonMoose;
-use namespace::autoclean;
+use MooseX::MarkAsMethods autoclean => 1;
 extends 'DBIx::Class::Core';
 
+=head1 COMPONENTS LOADED
 
-=head1 NAME
+=over 4
 
-Module::CPANTS::Schema::Result::HistoryAuthor
+=item * L<DBIx::Class::InflateColumn>
+
+=item * L<DBIx::Class::PK>
+
+=back
+
+=cut
+
+__PACKAGE__->load_components("InflateColumn", "PK");
+
+=head1 TABLE: C<history_author>
 
 =cut
 
@@ -77,53 +95,24 @@ __PACKAGE__->add_columns(
   "rank",
   { data_type => "integer", is_nullable => 1 },
 );
+
+=head1 PRIMARY KEY
+
+=over 4
+
+=item * L</id>
+
+=back
+
+=cut
+
 __PACKAGE__->set_primary_key("id");
 
-=head1 RELATIONS
 
-=head2 author
+# Created by DBIx::Class::Schema::Loader v0.07019 @ 2012-03-30 23:17:09
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:bMTLnY10JC2zBAV+frCp3w
 
-Type: belongs_to
-
-Related object: L<Module::CPANTS::Schema::Result::Author>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "author",
-  "Module::CPANTS::Schema::Result::Author",
-  { id => "author" },
-  {
-    is_deferrable => 1,
-    join_type     => "LEFT",
-    on_delete     => "CASCADE",
-    on_update     => "CASCADE",
-  },
-);
-
-=head2 run
-
-Type: belongs_to
-
-Related object: L<Module::CPANTS::Schema::Result::Run>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "run",
-  "Module::CPANTS::Schema::Result::Run",
-  { id => "run" },
-  {
-    is_deferrable => 1,
-    join_type     => "LEFT",
-    on_delete     => "CASCADE",
-    on_update     => "CASCADE",
-  },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07010 @ 2011-04-18 14:06:47
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:UuBhqMd10lJ4s/Sp0XopDQ
+__PACKAGE__->belongs_to("run", "Module::CPANTS::Schema::Result::Run", { id => "run" });
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
