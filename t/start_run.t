@@ -7,7 +7,7 @@ my $p=Module::CPANTS::ProcessCPAN->new('t/fakepan');
 $p->start_run();
 my $run=$p->run;
 
-isa_ok($run,'Module::CPANTS::DB::Run','class');
-is($run->version,$Module::CPANTS::Analyse::VERSION,'kwalitee version');
+isa_ok($run,'Module::CPANTS::Schema::Result::Run','class');
+is($run->mcanalyse_version,$Module::CPANTS::Analyse::VERSION,'kwalitee version');
 
 
