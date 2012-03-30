@@ -449,7 +449,8 @@ CREATE TABLE run (
     mcprocess_version text,
     available_kwalitee integer DEFAULT 0 NOT NULL,
     total_kwalitee integer DEFAULT 0 NOT NULL,
-    date timestamp without time zone DEFAULT now()
+    date timestamp without time zone DEFAULT now(),
+    stop timestamp without time zone
 );
 
 
