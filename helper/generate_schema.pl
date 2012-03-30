@@ -1,11 +1,12 @@
-#!/opt/perl5.10/bin/perl -w
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
 
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use DBIx::Class::Schema::Loader "make_schema_at", "dump_to_dir";
+use DBIx::Class::Schema::Loader "make_schema_at";
+use namespace::clean;
 use Module::CPANTS::ProcessCPAN;
 my $p=Module::CPANTS::ProcessCPAN->new();
 
@@ -16,19 +17,20 @@ make_schema_at(
     "Module::CPANTS::Schema",
     {
         dump_directory     => $dest,
-        skip_relationships => 1,
-		components         => [qw/ResultSetManager InflateColumn PK/],
+		components         => [qw/InflateColumn PK/],
+        use_moose          => 1,
+        skip_load_external => 1,
     },
     [$p->dsn],
 );
 
 =head1 NAME
 
-babilu_create_dbic_schema.pl -- create schema from current database
+generate_schema.pl -- create schema from current database
 
 =head1 SYNOPSIS
 
-  ./ babilu_create_dbic_schema.pl --debug --rels --dest=/tmp/lol
+  ./helper/generate_schema.pl --debug --dest=/tmp/lol
 
     Options: --dest chose the destination directory MUST be used
     if you use rels-- help this output-- debug be verbose
