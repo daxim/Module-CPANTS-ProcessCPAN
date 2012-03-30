@@ -102,6 +102,7 @@ CREATE TABLE dist (
     dir_t integer DEFAULT 0 NOT NULL,
     dir_xt integer DEFAULT 0 NOT NULL,
     broken_module_install text DEFAULT 0 NOT NULL,
+    mi_auto_install_used text DEFAULT 0 NOT NULL,
     manifest_matches_dist integer DEFAULT 0 NOT NULL,
     buildfile_executable integer DEFAULT 0 NOT NULL,
     license text,
