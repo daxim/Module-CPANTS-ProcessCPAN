@@ -27,6 +27,7 @@ my $build = Module::CPANTS::MyBuild->new(
         'DBD::Pg'                       => '1.49',
         'version'                       => '0.73',
         'File::HomeDir'                 => '0.66',
+        'File::Which'                   => '0',
         'perl'                          => 5.006,
         'DateTime'                      => '0',
         'DBD::PgLite::MirrorPgToSQLite' => '0',

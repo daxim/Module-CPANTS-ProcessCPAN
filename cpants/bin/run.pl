@@ -4,6 +4,7 @@ use warnings;
 use Module::CPANTS::ProcessCPAN::ConfigData;
 use Module::CPANTS::ProcessCPAN;
 use File::Spec::Functions;
+use File::Which;
 use Getopt::Long;
 use FindBin;
 my ($cpan,$lint,$force);
@@ -12,6 +13,8 @@ GetOptions(
     'lint=s' => \$lint,
     'force'  => \$force,
 );
+
+$lint ||= which('cpants_lint.pl');
 
 die "Usage: run.pl --cpan path/to/minicpan --lint path/to/cpants_lint.pl" unless $cpan && $lint;
 die "Cannot find cpants_lint.pl (in $lint)" unless -e $lint;
