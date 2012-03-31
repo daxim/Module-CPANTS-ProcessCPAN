@@ -19,15 +19,26 @@ my @ind=$k->get_indicators;
 
 my $dbh=$p->db->storage->dbh;
 
-# set core modules
-print "update CoreList\n";
-$p->db->resultset('Module')->find_or_create({module=>'perl',is_core=>1,dist=>0});
-my $core=$Module::CoreList::version{$] *1};
-foreach my $mod (keys %$core) {
-    my $m=$p->db->resultset('Module')->find_or_create({module=>$mod});
-    $m->is_core(1);
-    $m->dist(0) unless $m->dist;
-    $m->update;
+{
+    # set core modules
+    print "update CoreList\n";
+    $p->db->resultset('Module')->find_or_create({module=>'perl',is_core=>1,dist=>0});
+
+    # get core modules list
+    my @core=Module::CoreList->find_modules;
+    my %map = map {$_ => 1} @core;
+
+    # As we have dual-lived modules, we can't use update_or_create here
+    my $rs = $p->db->resultset('Module')->search({module => { in => \@core }});
+    $rs->update({is_core => 1});
+
+    # get what are not updated, and create rows for them
+    $rs->reset;
+    delete $map{($rs->get_column('module')->all)};
+    $p->db->resultset('Module')->populate([map {+{module => $_, is_core => 1, dist => 0}} keys %map]);
+
+    # core modules should be linked to 'perl' (if not linked to other dists)
+    $p->db->resultset('Module')->search({is_core => 1, dist => undef})->update({dist => 0});
 }
 
 {
