@@ -132,8 +132,9 @@ sub process_cpan {
     my %dists=map {$_->dist => 1} grep { $_->dist }   @distributions;
     $all_dists->reset;
     while (my $d=$all_dists->next) {
-        unless ($seen{$d->dist}) {
-            print $d->dist." not on CPAN anymore, deleted from DB\n";
+        my $dist = $d->dist || '';
+        unless ($seen{$dist}) {
+            print "$dist not on CPAN anymore, deleted from DB\n";
             $d->delete;
         }
     }
