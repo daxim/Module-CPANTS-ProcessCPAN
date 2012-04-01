@@ -35,7 +35,7 @@ foreach my $name (keys %dumps) {
         tables      => $tables->[0],
         indexes     => 1,
         verbose     => 1,
-        cachedir    => 0,
+        cachedir    => catdir($home, 'cache'),
         #snapshot    => 1,
     );
 
